@@ -24,6 +24,16 @@ pipeline {
             }
         }
 
+        stage('Code Checkout') {
+                steps {
+                        checkout([
+                            $class: 'GitSCM', 
+                            branches: [[name: '*/main']], 
+                            userRemoteConfigs: [[url: 'https://github.com/maezero/based-image.git']]
+                        ])
+                }
+        }
+
         stage('Run Docker Build') {
             steps {
                 sh "docker build -t zerozang/${APP_NAME}:${APP_VERSION}-${BUILD_NUMBER} ."
